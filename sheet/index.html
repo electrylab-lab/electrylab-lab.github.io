@@ -93,6 +93,7 @@ footer a{color:var(--sub)}
 <script>
 // 使い方: /sheet/?n=お客様名
 //   基本ヒアリングは2本: 個人=Eq58lr / 店舗・会社=X5xyyO
+//   s = 業種セット（salon など。省略時は飲食・バー向け）
 //   n = 宛名（「◯◯様」と表示。フォームには name として渡す）
 //   フォームには type も渡す: new=はじめて / more=2つ目のご依頼 / change=前回の内容の変更
 // 記入済みの表示は、この端末のブラウザにだけ記録される（お店側には届かない）
@@ -107,6 +108,12 @@ const FORMS = [
   {k:'lighter',  t:'ライター',             ic:'lighter',  u:'https://tally.so/r/2jBJ1L'},
 ];
 const q=new URLSearchParams(location.search);
+// s = 業種セット（省略時は飲食・バー向け）。salon: ライターを外し、名前をサロン向けに
+const SETS={
+  salon:{hide:['lighter'],label:{shopcard:'予約・ポイントカード',menu:'料金表・メニュー'}},
+};
+const set=SETS[q.get('s')]||{hide:[],label:{}};
+for(let i=FORMS.length-1;i>=0;i--){const f=FORMS[i]; if(set.hide.includes(f.k))FORMS.splice(i,1); else if(set.label[f.k])f.t=set.label[f.k];}
 const name=(q.get('n')||'').trim().slice(0,40);
 if(name){
   const h=document.getElementById('title');h.textContent='';
