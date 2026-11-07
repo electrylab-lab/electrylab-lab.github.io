@@ -1,18 +1,75 @@
 <!doctype html>
-<html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ELECTRY LAB</title>
-<meta name="description" content="旭川のデザイン＆業務システム。作る、整える、改善する。">
-<meta property="og:type" content="website"><meta property="og:site_name" content="ELECTRY LAB">
-<meta property="og:title" content="ELECTRY LAB"><meta property="og:description" content="作る、整える、改善する。">
-<meta property="og:url" content="https://electrylab-lab.github.io/"><meta property="og:image" content="https://electrylab-lab.github.io/img/ogp_top.png">
+<meta name="description" content="旭川のデザイン＆業務システム。名刺・チラシ・ロゴ・メニュー・グッズ・業務システム。作る、整える、改善する。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ELECTRY LAB">
+<meta property="og:title" content="ELECTRY LAB｜ご依頼・ご相談">
+<meta property="og:description" content="名刺・チラシ・ロゴ・メニュー・グッズ・業務システム。ご依頼はこちらから。">
+<meta property="og:url" content="https://electrylab-lab.github.io/">
+<meta property="og:image" content="https://electrylab-lab.github.io/img/ogp_top.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px 16px;box-sizing:border-box;background:#0e1016;color:#fff;font-family:sans-serif}
-h1{font-size:28px;letter-spacing:.3em;margin:0 0 4px}p{color:#bec8d2;margin:0 0 16px}
-a.btn{display:block;width:100%;max-width:340px;padding:16px;border-radius:12px;text-align:center;color:#fff;text-decoration:none;font-weight:bold;background:linear-gradient(90deg,#2BBFBF,#E8237A)}
-</style></head><body>
-<h1>ELECTRY LAB</h1><p>作る、整える、改善する。</p>
-<a class="btn" href="form/">デザインのご相談</a>
-<a class="btn" href="lighter/">ライター制作のご相談</a>
-</body></html>
+:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7}
+.bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--mag))}
+.wrap{max-width:560px;margin:0 auto;padding:28px 16px 48px}
+header{text-align:center;margin-bottom:24px}
+header img{width:96px;height:auto}
+h1{font-size:22px;letter-spacing:.3em;margin:8px 0 0}
+.tag{color:var(--sub);font-size:13px;margin:2px 0 0}
+h2{font-size:15px;margin:28px 0 10px;display:flex;align-items:center;gap:8px}
+h2 .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;font-size:13px;background:linear-gradient(135deg,var(--teal),var(--mag))}
+.lead{font-size:13px;color:var(--sub);margin:0 0 12px}
+a.btn{display:block;padding:16px;border-radius:12px;text-align:center;color:#fff;text-decoration:none;font-weight:bold;background:linear-gradient(90deg,var(--teal),var(--mag))}
+a.btn small{display:block;font-weight:normal;font-size:12px;opacity:.85}
+.list{display:grid;gap:8px}
+a.item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:#fff;text-decoration:none}
+a.item span{font-size:12px;color:var(--teal)}
+.menu{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.menu li{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.note{font-size:12px;color:var(--sub);margin-top:10px}
+footer{text-align:center;color:var(--sub);font-size:12px;margin-top:40px}
+footer a{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<div class="wrap">
+  <header>
+    <img src="img/mark.png" alt="">
+    <h1>ELECTRY LAB</h1>
+    <p class="tag">作る、整える、改善する。</p>
+  </header>
+
+  <h2><span class="n">1</span>まずはこちら（全員共通）</h2>
+  <p class="lead">お名前・お店のこと・作りたい物を教えてください。</p>
+  <a class="btn" href="form/">基本ヒアリング<small>選ぶだけの質問が中心です</small></a>
+
+  <h2><span class="n">2</span>ご依頼内容に合わせて</h2>
+  <p class="lead">下にあるものは、こちらにも答えていただけるとスムーズです。</p>
+  <div class="list">
+    <a class="item" href="lighter/">オリジナルライター<span>フォームへ →</span></a>
+  </div>
+  <p class="note">ここにないものは、1の基本ヒアリングだけでOKです。</p>
+
+  <h2>こんなものを作っています</h2>
+  <ul class="menu">
+    <li>名刺</li><li>ショップカード</li><li>チラシ・ポスター</li><li>メニュー表</li>
+    <li>POP</li><li>ロゴ</li><li>SNS用画像</li><li>似顔絵</li>
+    <li>ライター・グッズ</li><li>QRコード</li><li>お店の業務システム</li>
+  </ul>
+
+  <h2>無料ツール</h2>
+  <div class="list">
+    <a class="item" href="qr/">QRコードメーカー<span>使ってみる →</span></a>
+  </div>
+
+  <footer>© ELECTRY LAB ・ 旭川<br><a href="mailto:info@electry.jp">info@electry.jp</a></footer>
+</div>
+</body>
+</html>
