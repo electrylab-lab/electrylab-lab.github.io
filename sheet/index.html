@@ -25,23 +25,24 @@ h1 .nm{display:block;font-size:26px}
 .lead{font-size:13px;color:var(--sub);margin:8px 0 0}
 .legend{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--sub);margin:12px 0 0}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
-.legend .l1::before{background:#3a404c}
+.legend .l1::before{background:#3a404c;border:1px solid #555}
 .legend .l2::before{background:linear-gradient(135deg,var(--teal),var(--mag))}
 h2{font-size:15px;margin:28px 0 10px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 6px 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:#9aa3ae;font:inherit;font-size:12px;line-height:1.4;text-align:center;cursor:pointer;transition:all .3s}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 6px 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:#fff;font:inherit;font-size:12px;line-height:1.4;text-align:center;cursor:pointer;transition:all .3s}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tile.big{padding:22px 8px 16px;font-size:15px;font-weight:bold}
 .tile.big .ic{width:52px;height:52px}
 h2 small{font-weight:normal;color:var(--sub);font-size:12px}
-.tile .ic{width:34px;height:34px;filter:grayscale(1);opacity:.45;transition:all .3s}
+.tile .ic{width:34px;height:34px;transition:all .3s}
 .tile.opened{border-style:dashed;border-color:#4a5260}
-.tile.opened .ic{filter:grayscale(.5);opacity:.75}
-.tile.done{color:#fff;border-color:var(--teal);background:linear-gradient(160deg,#14302e,#2a1726)}
-.tile.done .ic{filter:drop-shadow(0 0 6px rgba(43,191,191,.7));opacity:1}
+.tile.done{border:2px solid transparent;background:linear-gradient(160deg,#173a37,#3a1830) padding-box,linear-gradient(135deg,var(--teal),var(--mag)) border-box;box-shadow:0 0 18px rgba(43,191,191,.25)}
+.tile.done .ic{filter:drop-shadow(0 0 6px rgba(43,191,191,.7))}
 .badge{position:absolute;top:6px;right:6px;font-size:10px;padding:1px 7px;border-radius:999px;font-weight:bold}
+.tile.done .badge{top:-10px;right:-8px;width:28px;height:28px;padding:0;display:grid;place-items:center;font-size:15px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--mag))!important;color:#fff!important;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.grid,.grid2{padding-top:6px}
 .tile.opened .badge{background:#2a2f3a;color:var(--sub)}
-.tile.done .badge{background:var(--teal);color:#0e1016}
+
 .plain{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .plain li{font-size:12px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--sub)}
 .note{font-size:12px;color:var(--sub);margin-top:10px}
@@ -66,7 +67,7 @@ footer a{color:var(--sub)}
     <div class="brand">ELECTRY LAB</div>
     <h1 id="title">ヒアリングシート</h1>
     <p class="lead">アイコンを押してお答えください。何度でも送れます。</p>
-    <div class="legend"><span class="l1">未記入</span><span class="l2">記入済み</span></div>
+    <div class="legend"><span class="l2">送信できたら ✓ が付きます</span></div>
   </header>
 
   <h2>1. 基本ヒアリング <small>（どちらか1つ）</small></h2>
@@ -145,7 +146,7 @@ function render(){
   tiles.forEach(([f,b,bd])=>{
     const s=st[f.k];
     b.classList.toggle('opened',s==='opened');b.classList.toggle('done',s==='done');
-    bd.textContent= s==='done'?'済':s==='opened'?'回答中':'';
+    bd.textContent= s==='done'?'✓':s==='opened'?'回答中':'';
     bd.style.display=s?'':'none';
   });
 }
