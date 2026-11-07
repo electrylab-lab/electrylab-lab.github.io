@@ -79,13 +79,13 @@ footer a{color:var(--sub)}
 //   フォームには type も渡す: new=新しいご依頼 / more=2つ目のご依頼 / change=前回の内容の変更
 // 「記入済み」は、この端末のブラウザにだけ記録される（お店側には届かない）
 const FORMS = {
-  basic:    {title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'../form/'},
-  meishi:   {title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'../meishi/'},
-  logo:     {title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'../logo/'},
-  shopcard: {title:'ショップカード・スタンプカード', sub:'使い方・載せる情報',             href:'../shopcard/'},
-  flyer:    {title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'../flyer/'},
-  menu:     {title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'../menu/'},
-  lighter:  {title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'../lighter/'},
+  basic:    {title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'https://tally.so/r/X5xyyO'},
+  meishi:   {title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'https://tally.so/r/7XR55L'},
+  logo:     {title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'https://tally.so/r/aOQoo9'},
+  shopcard: {title:'ショップカード・スタンプカード', sub:'使い方・載せる情報',             href:'https://tally.so/r/bZ5GGe'},
+  flyer:    {title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'https://tally.so/r/Ar755B'},
+  menu:     {title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'https://tally.so/r/BEz557'},
+  lighter:  {title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'https://tally.so/r/2jBJ1L'},
 };
 const q = new URLSearchParams(location.search);
 const name = (q.get('n')||'').trim().slice(0,40);
