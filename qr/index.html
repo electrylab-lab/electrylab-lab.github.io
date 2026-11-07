@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QRコードメーカー | ELECTRY LAB</title>
+<meta name="description" content="無料・登録なし。色・形・ロゴ入りのQRコードをその場で作ってダウンロード。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ELECTRY LAB">
+<meta property="og:title" content="QRコードメーカー | ELECTRY LAB">
+<meta property="og:description" content="無料・登録なし。色・形・ロゴ入りのQRコードをその場で作れます。">
+<meta property="og:url" content="https://electrylab-lab.github.io/qr/">
+<meta property="og:image" content="https://electrylab-lab.github.io/img/ogp_qr.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.6}
+header{padding:20px 16px 8px;text-align:center}
+header a{color:var(--sub);text-decoration:none;letter-spacing:.3em;font-size:12px}
+h1{margin:4px 0 0;font-size:24px}
+.lead{color:var(--sub);font-size:13px;margin:4px 0 0}
+.bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--mag))}
+main{max-width:960px;margin:0 auto;padding:16px;display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){main{grid-template-columns:1fr 360px;align-items:start}.preview{position:sticky;top:16px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+label{display:block;font-size:13px;color:var(--sub);margin:14px 0 6px}
+label:first-child{margin-top:0}
+input[type=text],input[type=url],textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0f1218;color:var(--text);font-size:16px}
+textarea{min-height:72px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#0f1218;color:var(--text);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
+.chip[aria-pressed=true]{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
+.sw{width:22px;height:22px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:6px;border:1px solid #fff3}
+input[type=color]{width:48px;height:36px;border:none;background:none;padding:0}
+.preview{text-align:center}
+#qr{background:#fff;border-radius:12px;display:inline-block;padding:0;line-height:0;max-width:100%}
+#qr canvas,#qr svg{max-width:100%;height:auto}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:bold;color:#fff;cursor:pointer;margin-top:10px;background:linear-gradient(90deg,var(--teal),var(--mag))}
+.btn.sub{background:#232834}
+.note{font-size:12px;color:var(--sub);margin-top:10px;text-align:left}
+.warn{color:#ffb4c8}
+.cta{border-color:#3a2a38;background:linear-gradient(135deg,#171a22,#22171f)}
+.cta h2{font-size:16px;margin:0 0 6px}
+.cta p{font-size:13px;color:var(--sub);margin:0 0 4px}
+.cta a{color:var(--teal)}
+
+.check{margin-top:12px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);text-align:left;font-size:13px}
+.check b{font-size:15px}
+.check.ok{border-color:#2BBFBF;background:#10262a}
+.check.mid{border-color:#c9a227;background:#2a2510}
+.check.ng{border-color:#E8237A;background:#2a1019}
+.check small{display:block;color:var(--sub);margin-top:2px}
+.size{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--sub)}
+.size input{width:80px;padding:8px;border-radius:8px;border:1px solid var(--line);background:#0f1218;color:#fff;font-size:16px}
+.fix{background:none;border:1px solid var(--teal);color:var(--teal);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer;margin-left:6px}
+footer{text-align:center;color:var(--sub);font-size:12px;padding:24px 16px 40px}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <a href="../">ELECTRY LAB</a>
+  <h1>QRコードメーカー</h1>
+  <p class="lead">無料・登録なし。データはこの端末の中だけで作られます。</p>
+</header>
+
+<main>
+  <section class="card">
+    <label for="data">URLや文字</label>
+    <textarea id="data" placeholder="https://example.com">https://electrylab-lab.github.io/</textarea>
+    <p class="note warn" id="dataWarn" style="display:none"></p>
+
+    <label>色</label>
+    <div class="row" id="colors">
+      <button class="chip" data-c="black" aria-pressed="true"><span class="sw" style="background:#111"></span>黒</button>
+      <button class="chip" data-c="electry" aria-pressed="false"><span class="sw" style="background:linear-gradient(135deg,#2BBFBF,#E8237A)"></span>ELECTRY</button>
+      <button class="chip" data-c="navy" aria-pressed="false"><span class="sw" style="background:#1d2b53"></span>紺</button>
+      <button class="chip" data-c="custom" aria-pressed="false">自分で選ぶ</button>
+    </div>
+    <div class="row" id="customRow" style="display:none;margin-top:8px;align-items:center">
+      <input type="color" id="c1" value="#2BBFBF"> → <input type="color" id="c2" value="#E8237A">
+      <span class="note" style="margin:0">同じ色にすると単色</span>
+    </div>
+
+    <label>ドットの形</label>
+    <div class="row" id="dots">
+      <button class="chip" data-v="square" aria-pressed="true">四角</button>
+      <button class="chip" data-v="rounded" aria-pressed="false">角丸</button>
+      <button class="chip" data-v="dots" aria-pressed="false">丸</button>
+      <button class="chip" data-v="classy-rounded" aria-pressed="false">しずく</button>
+    </div>
+
+    <label>角の目印</label>
+    <div class="row" id="corners">
+      <button class="chip" data-v="square" aria-pressed="true">四角</button>
+      <button class="chip" data-v="extra-rounded" aria-pressed="false">角丸</button>
+      <button class="chip" data-v="dot" aria-pressed="false">丸</button>
+    </div>
+    <p class="note" id="cornerNote" style="display:none">iPhone・Androidの標準カメラでは読めますが、一部の古いアプリや業務用リーダーで読めないことがあります。お店のレジ等で読ませるなら「四角」が無難。</p>
+
+    <label for="logo">真ん中にロゴ（任意）</label>
+    <input type="file" id="logo" accept="image/*">
+    <button class="chip" id="logoClear" style="margin-top:8px;display:none">ロゴを外す</button>
+
+    <label for="bg">背景</label>
+    <div class="row" id="bgs">
+      <button class="chip" data-v="#ffffff" aria-pressed="true">白</button>
+      <button class="chip" data-v="transparent" aria-pressed="false">透明</button>
+    </div>
+  </section>
+
+  <section class="card preview">
+    <div id="qr"></div>
+    <div class="check" id="check"><b>読み取りチェック中…</b></div>
+    <div class="size">印刷サイズ <input type="number" id="mm" value="20" min="5" max="300" step="1" inputmode="decimal"> mm角（白フチ込み）</div>
+    <p class="note" id="sizeNote"></p>
+    <button class="btn" id="dlPng">PNGで保存</button>
+    <button class="btn sub" id="dlSvg">SVGで保存（印刷・Illustrator用）</button>
+        <p class="note warn" id="contrastWarn" style="display:none"></p>
+    <p class="note">この画面のチェックはあくまで目安。刷る前に、実際のサイズで印刷してスマホで読み取りテストを。</p>
+  </section>
+
+  <section class="card cta" style="grid-column:1/-1">
+    <h2>名刺・チラシにQRを入れるなら</h2>
+    <p>ELECTRY LABでは、QR入りの名刺・チラシのデザインから印刷手配までまとめて承っています。</p>
+    <p><a href="../form/">デザインのご相談はこちら →</a></p>
+  </section>
+</main>
+
+<footer>© ELECTRY LAB ・ 作る、整える、改善する。<br>QRコードは株式会社デンソーウェーブの登録商標です。<br><span style="font-size:11px">使用ライブラリ：qr-code-styling (MIT) / jsQR (Apache-2.0) / ZXing (MIT)</span></footer>
+
+<script src="qr-code-styling.js"></script>
+<script src="jsqr.min.js" defer></script>
+<script src="zxing.min.js" defer></script>
+<script>
+const COLORS={
+  black:{type:'solid',a:'#111111'},
+  navy:{type:'solid',a:'#1d2b53'},
+  electry:{type:'grad',a:'#1FA3A3',b:'#D41E6E'}, // 読み取りやすいよう少し濃いめ
+};
+const SIZE=1024;
+const state={color:'black',dots:'square',corners:'square',bg:'#ffffff',logo:null,margin:Math.round(SIZE*4/33),score:null};
+
+function colorStops(){
+  let c=COLORS[state.color];
+  if(state.color==='custom'){const a=c1.value,b=c2.value;c=a.toLowerCase()===b.toLowerCase()?{type:'solid',a}:{type:'grad',a,b};}
+  return c;
+}
+function colorOpt(){
+  const c=colorStops();
+  if(c.type==='solid')return {color:c.a};
+  return {gradient:{type:'linear',rotation:Math.PI/4,colorStops:[{offset:0,color:c.a},{offset:1,color:c.b}]}};
+}
+function lum(hex){const n=parseInt(hex.slice(1),16),r=(n>>16)/255,g=(n>>8&255)/255,b=(n&255)/255;
+  const f=v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b);}
+const ratio=hex=>1.05/(lum(hex)+.05); // 白背景とのコントラスト比
+function text(){return data.value.trim()||' ';}
+function ecLevel(){
+  if(!state.logo)return 'M';
+  // ロゴありはH。ただし長い文字列はHだと細かくなりすぎて小さく刷ると読めないのでQ
+  return new TextEncoder().encode(text()).length<=60?'H':'Q';
+}
+function opts(w=SIZE){
+  const co=colorOpt();
+  return {
+    width:w,height:w,type:'canvas',margin:Math.round(state.margin*w/SIZE),
+    data:text(),
+    image:state.logo||undefined,
+    qrOptions:{errorCorrectionLevel:ecLevel()},
+    imageOptions:{margin:8,imageSize:.35,hideBackgroundDots:true,crossOrigin:'anonymous'},
+    dotsOptions:{type:state.dots,...co},
+    cornersSquareOptions:{type:state.corners,...co},
+    cornersDotOptions:{type:state.corners==='square'?'square':'dot',...co},
+    backgroundOptions:{color:state.bg},
+  };
+}
+// update()は前の設定と深くマージされて「グラデ→単色」に戻せないので、毎回作り直す
+let qr;
+function render(){const box=document.getElementById('qr');box.innerHTML='';qr=new QRCodeStyling(opts());qr.append(box);}
+render();
+const modules=()=>qr._qr?qr._qr.getModuleCount():25;
+
+// ---- 入力チェック
+function checkData(){
+  const v=data.value.trim();let msg='';
+  if(/[　-〿＀-￯]/.test(v)&&/^(https?:|ｈｔｔｐ|www|ｗｗｗ)/i.test(v))msg='URLに全角の文字や空白が混ざっています。そのままだと開けないことがあります。';
+  else if(/^https?:\/\/\S+\s+\S/.test(v))msg='URLの途中に空白や改行があります。';
+  else if(/^(www\.|[a-z0-9-]+\.(jp|com|net|org|co\.jp|io|me|app|link|shop)(\/|$))/i.test(v))msg='「https://」が付いていないので、URLではなく文字として読まれることがあります。<button class="fix" id="addHttps">https:// を付ける</button>';
+  dataWarn.innerHTML=msg;dataWarn.style.display=msg?'block':'none';
+  const b=document.getElementById('addHttps');if(b)b.onclick=()=>{data.value='https://'+data.value.trim();update();};
+}
+
+// ---- 色チェック
+function checkColor(){
+  const c=colorStops();const worst=Math.min(ratio(c.a),c.b?ratio(c.b):99);let msg='';
+  if(worst<3)msg='色が薄すぎて読めない可能性が高いです。もっと濃い色にしてください。';
+  else if(worst<4.5)msg='色がやや薄めです。小さく刷ると読みにくくなります。';
+  if(state.bg==='transparent')msg+=(msg?'<br>':'')+'背景透明：白〜明るい色の上に置いてください。暗い色・写真の上だと読めません。';
+  contrastWarn.innerHTML=msg;contrastWarn.style.display=msg?'block':'none';
+}
+
+// ---- 印刷サイズ
+function checkSize(){
+  const n=modules(),total=n+8,v=parseFloat(mm.value)||0,mod=v/total;
+  const min=Math.ceil(total*0.4),rec=Math.ceil(total*0.5);
+  let s=`このQRは ${n}×${n} マス。1マス ${mod.toFixed(2)}mm。<br>おすすめ ${rec}mm角以上（最低 ${min}mm）。`;
+  if(v&&v<min)s=`<span class="warn">小さすぎます。${min}mm以上にするか、URLを短くしてください。</span><br>`+s;
+  else if(v&&v<rec)s=`<span class="warn">ギリギリのサイズです。</span>`+s;
+  if(n>=41)s+='<br>文字が長くてマスが細かいです。短縮URLにすると小さくても読みやすくなります。';
+  sizeNote.innerHTML=s;
+}
+
+// ---- 読み取りチェック（いろんなサイズ・ぼかしで実際にデコード）
+const SCEN=[{w:600,b:0},{w:300,b:0},{w:190,b:.8},{w:140,b:1}];
+let checkId=0;
+async function readCheck(){
+  const id=++checkId;
+  if(!window.jsQR||!window.ZXing){check.className='check';check.innerHTML='<b>読み取りチェック準備中…</b>';return setTimeout(()=>id===checkId&&readCheck(),300);}
+  check.className='check';check.innerHTML='<b>読み取りチェック中…</b>';
+  let bmp;
+  try{const blob=await qr.getRawData('png');bmp=await createImageBitmap(blob);}catch(e){return;}
+  if(id!==checkId)return;
+  const want=text();let pass=0;const cv=document.createElement('canvas');const x=cv.getContext('2d',{willReadFrequently:true});
+  for(const s of SCEN){
+    cv.width=cv.height=s.w;x.filter='none';x.fillStyle='#fff';x.fillRect(0,0,s.w,s.w);
+    x.filter=s.b?`blur(${s.b}px)`:'none';x.drawImage(bmp,0,0,s.w,s.w);
+    if(decode(cv,x,s.w)===want)pass++;
+    await new Promise(r=>setTimeout(r,0));if(id!==checkId)return;
+  }
+  state.score=pass;
+  const c=colorStops(),worst=Math.min(ratio(c.a),c.b?ratio(c.b):99);
+  if(worst<3){state.score=0;check.className='check ng';check.innerHTML='<b>× 色が薄すぎます</b><small>画面上では読めても、印刷すると読めないことが多い薄さです。濃い色にしてください。</small>';return;}
+  if(pass===SCEN.length){check.className='check ok';check.innerHTML='<b>◎ 読み取りOK</b><small>大きさ・ピンぼけを変えた4パターンすべて読めました。</small>';}
+  else if(pass>=2){check.className='check mid';check.innerHTML=`<b>△ 小さいと読みにくい（${pass}/4）</b><small>大きめに刷るか、ドットを「四角」、ロゴを外す・小さい画像にすると改善します。</small>`;}
+  else{check.className='check ng';check.innerHTML=`<b>× 読み取れない可能性大（${pass}/4）</b><small>色を濃く・ドットを「四角」・ロゴを外す、を試してください。</small>`;}
+}
+function decode(cv,x,w){
+  try{const d=x.getImageData(0,0,w,w);const r=jsQR(d.data,w,w,{inversionAttempts:'dontInvert'});if(r&&r.data)return r.data;}catch(e){}
+  try{const hints=new Map();hints.set(ZXing.DecodeHintType.TRY_HARDER,true);
+    const bm=new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(new ZXing.HTMLCanvasElementLuminanceSource(cv)));
+    return new ZXing.QRCodeReader().decode(bm,hints).getText();}catch(e){}
+  return null;
+}
+
+function update(){
+  render();
+  // 白フチ（クワイエットゾーン）を4マス分に合わせる
+  const n=modules(),m=Math.round(SIZE*4/(n+8));
+  if(m!==state.margin){state.margin=m;render();}
+  checkData();checkColor();checkSize();readCheck();
+}
+function group(id,key,cb){
+  document.getElementById(id).addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    [...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+    state[key]=b.dataset.v??b.dataset.c;cb&&cb();update();
+  });
+}
+group('colors','color',()=>{customRow.style.display=state.color==='custom'?'flex':'none';});
+group('dots','dots');group('corners','corners',()=>{cornerNote.style.display=state.corners==='square'?'none':'block';});group('bgs','bg');
+let t;data.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(update,250);});
+let t2;const deb=()=>{clearTimeout(t2);t2=setTimeout(update,150);};
+c1.addEventListener('input',deb);c2.addEventListener('input',deb);
+mm.addEventListener('input',checkSize);
+logo.addEventListener('change',()=>{
+  const f=logo.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{state.logo=r.result;logoClear.style.display='inline-block';update();};r.readAsDataURL(f);
+});
+logoClear.addEventListener('click',()=>{state.logo=null;logo.value='';logoClear.style.display='none';update();});
+function okToSave(){
+  if(state.score===0)return confirm('読み取りチェックで読めませんでした。このまま保存しますか？');
+  return true;
+}
+dlPng.addEventListener('click',()=>{
+  if(!okToSave())return;
+  // 印刷サイズで350dpi以上になるように
+  const w=Math.max(SIZE,Math.min(4096,Math.ceil((parseFloat(mm.value)||20)/25.4*350)));
+  const q=w===SIZE?qr:new QRCodeStyling(opts(w));
+  q.download({name:'qrcode',extension:'png'});
+});
+dlSvg.addEventListener('click',()=>{
+  if(!okToSave())return;
+  new QRCodeStyling({...opts(),type:'svg'}).download({name:'qrcode',extension:'svg'});
+});
+window.addEventListener('load',update);
+update();
+</script>
+</body>
+</html>
