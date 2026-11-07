@@ -30,7 +30,11 @@ h2{font-size:15px;margin:28px 0 10px}
 .card a.main{display:flex;align-items:center;gap:12px;padding:16px;color:#fff;text-decoration:none}
 .num{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;font-weight:bold;font-size:14px;background:linear-gradient(135deg,var(--teal),var(--mag))}
 .card.done .num{background:var(--teal);color:#0e1016}
-.card .ic{width:26px;height:26px}
+.card .ic{width:26px;height:26px;transition:filter .3s,opacity .3s}
+.card:not(.done) .ic{filter:grayscale(1);opacity:.4}
+.card.opened .ic{filter:grayscale(.4);opacity:.75}
+.card.done .ic{filter:drop-shadow(0 0 6px rgba(43,191,191,.7))}
+.card:not(.done) b{color:#c9d0d8}
 .card b{display:block}
 .card small{color:var(--sub);font-size:12px}
 .go{margin-left:auto;color:var(--teal);font-size:12px;white-space:nowrap}
