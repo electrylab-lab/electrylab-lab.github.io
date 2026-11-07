@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://electrylab-lab.github.io/img/ogp_top.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A}
+:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A;--done:#12352f}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7}
 .bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--mag))}
@@ -20,15 +20,26 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Sans"
 header{text-align:center;margin-bottom:20px}
 header img{width:64px}
 .brand{font-size:12px;letter-spacing:.3em;color:var(--sub)}
-h1{font-size:22px;margin:6px 0 0}
+h1{font-size:20px;margin:6px 0 0}
+h1 .nm{display:block;font-size:26px}
 .lead{font-size:13px;color:var(--sub);margin:6px 0 0}
 h2{font-size:15px;margin:28px 0 10px}
-.steps{display:grid;gap:10px;counter-reset:s}
-a.step{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:#fff;text-decoration:none}
-a.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;font-weight:bold;background:linear-gradient(135deg,var(--teal),var(--mag))}
-a.step b{display:block}
-a.step small{color:var(--sub);font-size:12px}
-a.step .go{margin-left:auto;color:var(--teal);font-size:12px;white-space:nowrap}
+.cards{display:grid;gap:10px}
+.card{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;transition:background .3s,border-color .3s}
+.card.done{background:var(--done);border-color:var(--teal)}
+.card a.main{display:flex;align-items:center;gap:12px;padding:16px;color:#fff;text-decoration:none}
+.num{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;font-weight:bold;font-size:14px;background:linear-gradient(135deg,var(--teal),var(--mag))}
+.card.done .num{background:var(--teal);color:#0e1016}
+.card b{display:block}
+.card small{color:var(--sub);font-size:12px}
+.go{margin-left:auto;color:var(--teal);font-size:12px;white-space:nowrap}
+.card.done .go{color:#fff;background:var(--teal);color:#0e1016;padding:2px 10px;border-radius:999px;font-weight:bold}
+.sub{display:none;gap:8px;padding:0 16px 14px;flex-wrap:wrap}
+.card.opened .sub,.card.done .sub{display:flex}
+.sub button{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0f1218;color:#fff;font-size:13px;cursor:pointer}
+.sub button.ok{border-color:var(--teal);color:var(--teal)}
+.sub .hint{width:100%;font-size:12px;color:var(--sub);margin:0}
+.others .card a.main{padding:12px 16px}
 .menu{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .menu li{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--sub)}
 .note{font-size:12px;color:var(--sub);margin-top:10px}
@@ -43,10 +54,14 @@ footer a{color:var(--sub)}
     <img src="../img/mark.png" alt="">
     <div class="brand">ELECTRY LAB</div>
     <h1 id="title">ヒアリングシート</h1>
-    <p class="lead">上から順にお答えください。途中で分からないところは空欄で大丈夫です。</p>
+    <p class="lead">上から順にお答えください。分からないところは空欄で大丈夫です。<br>何度でも送れます。2つ目のご依頼や変更もここからどうぞ。</p>
   </header>
 
-  <div class="steps" id="steps"></div>
+  <div class="cards" id="main"></div>
+
+  <h2>ほかのヒアリング</h2>
+  <div class="cards others" id="others"></div>
+  <p class="note">別のものも一緒に頼みたいときは、こちらにもお答えください。</p>
 
   <h2>ほかにもこんなものを作っています</h2>
   <ul class="menu">
@@ -54,37 +69,79 @@ footer a{color:var(--sub)}
     <li>POP</li><li>ロゴ</li><li>SNS用画像</li><li>似顔絵</li>
     <li>ライター・グッズ</li><li>QRコード</li><li>お店の業務システム</li>
   </ul>
-  <p class="note">気になるものがあれば、基本ヒアリングの「作りたい物」で選ぶか、お気軽にお声がけください。</p>
 
   <footer>© ELECTRY LAB ・ 旭川<br><a href="mailto:info@electry.jp">info@electry.jp</a></footer>
 </div>
 <script>
-// 使い方: /sheet/?n=お客様名&f=lighter
-//   n = 宛名（「◯◯様」と表示。フォームにも name として渡す）
-//   f = 基本の下に出すフォーム（カンマ区切り）
+// 使い方: /sheet/?n=お客様名&f=lighter,meishi
+//   n = 宛名（「◯◯様」と表示。フォームには name として渡す）
+//   f = 基本の下に出すフォーム（カンマ区切り）。残りは「ほかのヒアリング」に並ぶ
+//   フォームには type も渡す: new=新しいご依頼 / more=2つ目のご依頼 / change=前回の内容の変更
+// 「記入済み」は、この端末のブラウザにだけ記録される（お店側には届かない）
 const FORMS = {
-  basic:   {title:'基本ヒアリング', sub:'お名前・お店のこと・作りたい物', href:'../form/'},
-  lighter: {title:'オリジナルライター', sub:'本数・デザインの内容', href:'../lighter/'},
+  basic:    {title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'../form/'},
+  meishi:   {title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'../meishi/'},
+  logo:     {title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'../logo/'},
+  shopcard: {title:'ショップカード・スタンプカード', sub:'使い方・載せる情報',             href:'../shopcard/'},
+  flyer:    {title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'../flyer/'},
+  menu:     {title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'../menu/'},
+  lighter:  {title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'../lighter/'},
 };
 const q = new URLSearchParams(location.search);
 const name = (q.get('n')||'').trim().slice(0,40);
-const list = ['basic', ...(q.get('f')||'').split(',').map(s=>s.trim()).filter(k=>FORMS[k] && k!=='basic')];
+const picked = ['basic', ...(q.get('f')||'').split(',').map(s=>s.trim()).filter(k=>FORMS[k] && k!=='basic')];
+const main = [...new Set(picked)];
+const others = Object.keys(FORMS).filter(k=>!main.includes(k));
+
 if(name){
-  const h=document.getElementById('title');h.textContent='';const nm=document.createElement('span');nm.style.cssText='display:block;font-size:26px';nm.textContent=name+' 様';h.append(nm,'ヒアリングシート');
-  document.title = name + ' 様 ヒアリングシート | ELECTRY LAB';
+  const h=document.getElementById('title'); h.textContent='';
+  const nm=document.createElement('span'); nm.className='nm'; nm.textContent=name+' 様';
+  h.append(nm,'ヒアリングシート');
+  document.title=name+' 様 ヒアリングシート | ELECTRY LAB';
 }
-const pass = name ? '?name=' + encodeURIComponent(name) : '';
-const box = document.getElementById('steps');
-[...new Set(list)].forEach(k=>{
-  const f = FORMS[k], a = document.createElement('a');
-  a.className = 'step'; a.href = f.href + pass;
-  const t = document.createElement('div');
-  const b = document.createElement('b'); b.textContent = f.title;
-  const s = document.createElement('small'); s.textContent = f.sub;
-  t.append(b, s);
-  const go = document.createElement('span'); go.className = 'go'; go.textContent = '回答する →';
-  a.append(t, go); box.append(a);
-});
+
+const KEY='electry-sheet:'+name;
+let st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+function url(k,type){
+  const p=new URLSearchParams(); if(name)p.set('name',name); p.set('type',type);
+  return FORMS[k].href+'?'+p.toString();
+}
+function el(t,c,txt){const e=document.createElement(t); if(c)e.className=c; if(txt!=null)e.textContent=txt; return e;}
+
+function card(k,i){
+  const f=FORMS[k], c=el('div','card'), a=el('a','main');
+  a.href=url(k, st[k]==='done'?'more':'new'); a.target='_blank'; a.rel='noopener';
+  const num=el('span','num', i!=null? String(i+1) : '+');
+  const t=el('div'); t.append(el('b',null,f.title), el('small',null,f.sub));
+  const go=el('span','go');
+  a.append(num,t,go);
+  const sub=el('div','sub');
+  c.append(a,sub);
+  function render(){
+    c.classList.toggle('opened', st[k]==='opened');
+    c.classList.toggle('done', st[k]==='done');
+    sub.textContent='';
+    if(st[k]==='done'){
+      num.textContent='✓'; go.textContent='記入済み';
+      a.href=url(k,'more');
+      const more=el('button',null,'もう1件頼む'); more.onclick=()=>open(url(k,'more'));
+      const chg=el('button',null,'内容を変更する'); chg.onclick=()=>open(url(k,'change'));
+      sub.append(more,chg);
+    }else if(st[k]==='opened'){
+      num.textContent= i!=null? String(i+1) : '+'; go.textContent='回答する →';
+      const ok=el('button','ok','送信できた ✓'); ok.onclick=()=>{st[k]='done';save();render();};
+      sub.append(el('p','hint','フォームの最後まで送信できたら、ここを押してください。'), ok);
+    }else{
+      go.textContent='回答する →';
+    }
+  }
+  a.addEventListener('click',()=>{ if(st[k]!=='done'){st[k]='opened';save();render();} });
+  render();
+  return c;
+}
+main.forEach((k,i)=>document.getElementById('main').append(card(k,i)));
+others.forEach(k=>document.getElementById('others').append(card(k,null)));
 </script>
 </body>
 </html>
