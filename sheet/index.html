@@ -30,6 +30,7 @@ h2{font-size:15px;margin:28px 0 10px}
 .card a.main{display:flex;align-items:center;gap:12px;padding:16px;color:#fff;text-decoration:none}
 .num{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;font-weight:bold;font-size:14px;background:linear-gradient(135deg,var(--teal),var(--mag))}
 .card.done .num{background:var(--teal);color:#0e1016}
+.card .ic{width:26px;height:26px}
 .card b{display:block}
 .card small{color:var(--sub);font-size:12px}
 .go{margin-left:auto;color:var(--teal);font-size:12px;white-space:nowrap}
@@ -40,9 +41,14 @@ h2{font-size:15px;margin:28px 0 10px}
 .sub button.ok{border-color:var(--teal);color:var(--teal)}
 .sub .hint{width:100%;font-size:12px;color:var(--sub);margin:0}
 .others .card a.main{padding:12px 16px}
+.others .num{display:none}
+.others .card.done .num{display:grid}
 .menu{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .menu li{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--sub)}
 .note{font-size:12px;color:var(--sub);margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0;padding:0;list-style:none}
+.grid li{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 6px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:12px;text-align:center;line-height:1.4}
+.ic{width:30px;height:30px;flex:none}
 footer{text-align:center;color:var(--sub);font-size:12px;margin-top:40px}
 footer a{color:var(--sub)}
 </style>
@@ -64,14 +70,24 @@ footer a{color:var(--sub)}
   <p class="note">別のものも一緒に頼みたいときは、こちらにもお答えください。</p>
 
   <h2>ほかにもこんなものを作っています</h2>
-  <ul class="menu">
-    <li>名刺</li><li>ショップカード</li><li>チラシ・ポスター</li><li>メニュー表</li>
-    <li>POP</li><li>ロゴ</li><li>SNS用画像</li><li>似顔絵</li>
-    <li>ライター・グッズ</li><li>QRコード</li><li>お店の業務システム</li>
+  <ul class="grid">
+    <li><i data-ic="meishi"></i><span>名刺</span></li>
+    <li><i data-ic="shopcard"></i><span>ショップカード</span></li>
+    <li><i data-ic="flyer"></i><span>チラシ・ポスター</span></li>
+    <li><i data-ic="menu"></i><span>メニュー表</span></li>
+    <li><i data-ic="pop"></i><span>POP</span></li>
+    <li><i data-ic="logo"></i><span>ロゴ</span></li>
+    <li><i data-ic="sns"></i><span>SNS用画像</span></li>
+    <li><i data-ic="nigaoe"></i><span>似顔絵</span></li>
+    <li><i data-ic="goods"></i><span>ライター・グッズ</span></li>
+    <li><i data-ic="qr"></i><span>QRコード</span></li>
+    <li><i data-ic="system"></i><span>業務システム</span></li>
+    <li><i data-ic="logo"></i><span>その他も<br>ご相談ください</span></li>
   </ul>
 
   <footer>© ELECTRY LAB ・ 旭川<br><a href="mailto:info@electry.jp">info@electry.jp</a></footer>
 </div>
+<script src="../img/icons.js"></script>
 <script>
 // 使い方: /sheet/?n=お客様名&f=lighter,meishi
 //   n = 宛名（「◯◯様」と表示。フォームには name として渡す）
@@ -79,13 +95,13 @@ footer a{color:var(--sub)}
 //   フォームには type も渡す: new=新しいご依頼 / more=2つ目のご依頼 / change=前回の内容の変更
 // 「記入済み」は、この端末のブラウザにだけ記録される（お店側には届かない）
 const FORMS = {
-  basic:    {title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'https://tally.so/r/X5xyyO'},
-  meishi:   {title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'https://tally.so/r/7XR55L'},
-  logo:     {title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'https://tally.so/r/aOQoo9'},
-  shopcard: {title:'ショップカード・スタンプカード', sub:'使い方・載せる情報',             href:'https://tally.so/r/bZ5GGe'},
-  flyer:    {title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'https://tally.so/r/Ar755B'},
-  menu:     {title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'https://tally.so/r/BEz557'},
-  lighter:  {title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'https://tally.so/r/2jBJ1L'},
+  basic:    {ic:'basic',title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'https://tally.so/r/X5xyyO'},
+  meishi:   {ic:'meishi',title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'https://tally.so/r/7XR55L'},
+  logo:     {ic:'logo',title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'https://tally.so/r/aOQoo9'},
+  shopcard: {ic:'shopcard',title:'ショップ・スタンプカード', sub:'使い方・載せる情報',             href:'https://tally.so/r/bZ5GGe'},
+  flyer:    {ic:'flyer',title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'https://tally.so/r/Ar755B'},
+  menu:     {ic:'menu',title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'https://tally.so/r/BEz557'},
+  lighter:  {ic:'lighter',title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'https://tally.so/r/2jBJ1L'},
 };
 const q = new URLSearchParams(location.search);
 const name = (q.get('n')||'').trim().slice(0,40);
@@ -115,7 +131,8 @@ function card(k,i){
   const num=el('span','num', i!=null? String(i+1) : '+');
   const t=el('div'); t.append(el('b',null,f.title), el('small',null,f.sub));
   const go=el('span','go');
-  a.append(num,t,go);
+  const ic=window.ElectryIcon?ElectryIcon(f.ic):document.createElement('span');
+  a.append(num,ic,t,go);
   const sub=el('div','sub');
   c.append(a,sub);
   function render(){
