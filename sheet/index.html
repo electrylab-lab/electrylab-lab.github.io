@@ -8,11 +8,11 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ELECTRY LAB">
 <meta property="og:title" content="ヒアリングシート | ELECTRY LAB">
-<meta property="og:description" content="ご依頼内容の確認シートです。上から順にお答えください。">
+<meta property="og:description" content="ご依頼内容の確認シートです。アイコンを押してお答えください。">
 <meta property="og:image" content="https://electrylab-lab.github.io/img/ogp_top.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A;--done:#12352f}
+:root{--bg:#0e1016;--card:#171a22;--line:#2a2f3a;--text:#fff;--sub:#a9b3bf;--teal:#2BBFBF;--mag:#E8237A}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7}
 .bar{height:3px;background:linear-gradient(90deg,var(--teal),var(--mag))}
@@ -22,37 +22,36 @@ header img{width:64px}
 .brand{font-size:12px;letter-spacing:.3em;color:var(--sub)}
 h1{font-size:20px;margin:6px 0 0}
 h1 .nm{display:block;font-size:26px}
-.lead{font-size:13px;color:var(--sub);margin:6px 0 0}
+.lead{font-size:13px;color:var(--sub);margin:8px 0 0}
+.legend{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--sub);margin:12px 0 0}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.legend .l1::before{background:#3a404c}
+.legend .l2::before{background:linear-gradient(135deg,var(--teal),var(--mag))}
 h2{font-size:15px;margin:28px 0 10px}
-.cards{display:grid;gap:10px}
-.card{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;transition:background .3s,border-color .3s}
-.card.done{background:var(--done);border-color:var(--teal)}
-.card a.main{display:flex;align-items:center;gap:12px;padding:16px;color:#fff;text-decoration:none}
-.num{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;font-weight:bold;font-size:14px;background:linear-gradient(135deg,var(--teal),var(--mag))}
-.card.done .num{background:var(--teal);color:#0e1016}
-.card .ic{width:26px;height:26px;transition:filter .3s,opacity .3s}
-.card:not(.done) .ic{filter:grayscale(1);opacity:.4}
-.card.opened .ic{filter:grayscale(.4);opacity:.75}
-.card.done .ic{filter:drop-shadow(0 0 6px rgba(43,191,191,.7))}
-.card:not(.done) b{color:#c9d0d8}
-.card b{display:block}
-.card small{color:var(--sub);font-size:12px}
-.go{margin-left:auto;color:var(--teal);font-size:12px;white-space:nowrap}
-.card.done .go{color:#fff;background:var(--teal);color:#0e1016;padding:2px 10px;border-radius:999px;font-weight:bold}
-.sub{display:none;gap:8px;padding:0 16px 14px;flex-wrap:wrap}
-.card.opened .sub,.card.done .sub{display:flex}
-.sub button{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0f1218;color:#fff;font-size:13px;cursor:pointer}
-.sub button.ok{border-color:var(--teal);color:var(--teal)}
-.sub .hint{width:100%;font-size:12px;color:var(--sub);margin:0}
-.others .card a.main{padding:12px 16px}
-.others .num{display:none}
-.others .card.done .num{display:grid}
-.menu{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.menu li{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--sub)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 6px 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:#9aa3ae;font:inherit;font-size:12px;line-height:1.4;text-align:center;cursor:pointer;transition:all .3s}
+.tile.wide{grid-column:1/-1;flex-direction:row;gap:12px;padding:16px;font-size:14px}
+.tile .ic{width:34px;height:34px;filter:grayscale(1);opacity:.45;transition:all .3s}
+.tile.opened{border-style:dashed;border-color:#4a5260}
+.tile.opened .ic{filter:grayscale(.5);opacity:.75}
+.tile.done{color:#fff;border-color:var(--teal);background:linear-gradient(160deg,#14302e,#2a1726)}
+.tile.done .ic{filter:drop-shadow(0 0 6px rgba(43,191,191,.7));opacity:1}
+.badge{position:absolute;top:6px;right:6px;font-size:10px;padding:1px 7px;border-radius:999px;font-weight:bold}
+.tile.opened .badge{background:#2a2f3a;color:var(--sub)}
+.tile.done .badge{background:var(--teal);color:#0e1016}
+.tile.wide .badge{top:50%;transform:translateY(-50%);right:12px;font-size:11px}
+.plain{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.plain li{font-size:12px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--sub)}
 .note{font-size:12px;color:var(--sub);margin-top:10px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0;padding:0;list-style:none}
-.grid li{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 6px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:12px;text-align:center;line-height:1.4}
-.ic{width:30px;height:30px;flex:none}
+dialog{border:1px solid var(--line);border-radius:16px;background:#151821;color:#fff;padding:20px;width:min(92vw,360px)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog h3{margin:0 0 4px;font-size:16px}
+dialog p{margin:0 0 14px;font-size:12px;color:var(--sub)}
+dialog .acts{display:grid;gap:8px}
+dialog button{padding:12px;border-radius:10px;border:1px solid var(--line);background:#0f1218;color:#fff;font:inherit;font-size:14px;cursor:pointer}
+dialog button.pri{border:none;background:linear-gradient(90deg,var(--teal),var(--mag));font-weight:bold}
+dialog button.ok{border-color:var(--teal);color:var(--teal)}
+dialog button.x{background:none;border:none;color:var(--sub);font-size:13px}
 footer{text-align:center;color:var(--sub);font-size:12px;margin-top:40px}
 footer a{color:var(--sub)}
 </style>
@@ -64,105 +63,85 @@ footer a{color:var(--sub)}
     <img src="../img/mark.png" alt="">
     <div class="brand">ELECTRY LAB</div>
     <h1 id="title">ヒアリングシート</h1>
-    <p class="lead">上から順にお答えください。分からないところは空欄で大丈夫です。<br>何度でも送れます。2つ目のご依頼や変更もここからどうぞ。</p>
+    <p class="lead">まず「基本ヒアリング」、そのあと頼みたいもののアイコンを押してお答えください。何度でも送れます。</p>
+    <div class="legend"><span class="l1">未記入</span><span class="l2">記入済み</span></div>
   </header>
 
-  <div class="cards" id="main"></div>
+  <div class="grid" id="grid"></div>
 
-  <h2>ほかのヒアリング</h2>
-  <div class="cards others" id="others"></div>
-  <p class="note">別のものも一緒に頼みたいときは、こちらにもお答えください。</p>
-
-  <h2>ほかにもこんなものを作っています</h2>
-  <ul class="grid">
-    <li><i data-ic="meishi"></i><span>名刺</span></li>
-    <li><i data-ic="shopcard"></i><span>ショップカード</span></li>
-    <li><i data-ic="flyer"></i><span>チラシ・ポスター</span></li>
-    <li><i data-ic="menu"></i><span>メニュー表</span></li>
-    <li><i data-ic="pop"></i><span>POP</span></li>
-    <li><i data-ic="logo"></i><span>ロゴ</span></li>
-    <li><i data-ic="sns"></i><span>SNS用画像</span></li>
-    <li><i data-ic="nigaoe"></i><span>似顔絵</span></li>
-    <li><i data-ic="goods"></i><span>ライター・グッズ</span></li>
-    <li><i data-ic="qr"></i><span>QRコード</span></li>
-    <li><i data-ic="system"></i><span>業務システム</span></li>
-    <li><i data-ic="logo"></i><span>その他も<br>ご相談ください</span></li>
-  </ul>
+  <h2>ほかにも作れます</h2>
+  <ul class="plain"><li>POP</li><li>SNS用画像</li><li>似顔絵</li><li>グッズ</li><li>QRコード</li><li>業務システム</li></ul>
+  <p class="note">これらは「基本ヒアリング」の「作りたい物」で選んでください。</p>
 
   <footer>© ELECTRY LAB ・ 旭川<br><a href="mailto:info@electry.jp">info@electry.jp</a></footer>
 </div>
+
+<dialog id="dlg">
+  <h3 id="dT"></h3>
+  <p id="dP"></p>
+  <div class="acts" id="dA"></div>
+</dialog>
+
 <script src="../img/icons.js"></script>
 <script>
-// 使い方: /sheet/?n=お客様名&f=lighter,meishi
+// 使い方: /sheet/?n=お客様名
 //   n = 宛名（「◯◯様」と表示。フォームには name として渡す）
-//   f = 基本の下に出すフォーム（カンマ区切り）。残りは「ほかのヒアリング」に並ぶ
-//   フォームには type も渡す: new=新しいご依頼 / more=2つ目のご依頼 / change=前回の内容の変更
-// 「記入済み」は、この端末のブラウザにだけ記録される（お店側には届かない）
-const FORMS = {
-  basic:    {ic:'basic',title:'基本ヒアリング',               sub:'お名前・お店のこと・作りたい物', href:'https://tally.so/r/X5xyyO'},
-  meishi:   {ic:'meishi',title:'名刺',                         sub:'載せる情報・枚数・紙',           href:'https://tally.so/r/7XR55L'},
-  logo:     {ic:'logo',title:'ロゴ',                         sub:'文字・雰囲気・色',               href:'https://tally.so/r/aOQoo9'},
-  shopcard: {ic:'shopcard',title:'ショップ・スタンプカード', sub:'使い方・載せる情報',             href:'https://tally.so/r/bZ5GGe'},
-  flyer:    {ic:'flyer',title:'チラシ・ポスター',             sub:'サイズ・載せる内容',             href:'https://tally.so/r/Ar755B'},
-  menu:     {ic:'menu',title:'メニュー表',                   sub:'品数・サイズ・写真',             href:'https://tally.so/r/BEz557'},
-  lighter:  {ic:'lighter',title:'オリジナルライター',           sub:'本数・デザインの内容',           href:'https://tally.so/r/2jBJ1L'},
-};
-const q = new URLSearchParams(location.search);
-const name = (q.get('n')||'').trim().slice(0,40);
-const picked = ['basic', ...(q.get('f')||'').split(',').map(s=>s.trim()).filter(k=>FORMS[k] && k!=='basic')];
-const main = [...new Set(picked)];
-const others = Object.keys(FORMS).filter(k=>!main.includes(k));
-
+//   フォームには type も渡す: new=はじめて / more=2つ目のご依頼 / change=前回の内容の変更
+// 記入済みの表示は、この端末のブラウザにだけ記録される（お店側には届かない）
+const FORMS = [
+  {k:'basic',    t:'基本ヒアリング',       ic:'basic',    u:'https://tally.so/r/X5xyyO', wide:true},
+  {k:'meishi',   t:'名刺',                 ic:'meishi',   u:'https://tally.so/r/7XR55L'},
+  {k:'logo',     t:'ロゴ',                 ic:'logo',     u:'https://tally.so/r/aOQoo9'},
+  {k:'shopcard', t:'ショップ・スタンプカード', ic:'shopcard', u:'https://tally.so/r/bZ5GGe'},
+  {k:'flyer',    t:'チラシ・ポスター',     ic:'flyer',    u:'https://tally.so/r/Ar755B'},
+  {k:'menu',     t:'メニュー表',           ic:'menu',     u:'https://tally.so/r/BEz557'},
+  {k:'lighter',  t:'ライター',             ic:'lighter',  u:'https://tally.so/r/2jBJ1L'},
+];
+const q=new URLSearchParams(location.search);
+const name=(q.get('n')||'').trim().slice(0,40);
 if(name){
-  const h=document.getElementById('title'); h.textContent='';
-  const nm=document.createElement('span'); nm.className='nm'; nm.textContent=name+' 様';
-  h.append(nm,'ヒアリングシート');
-  document.title=name+' 様 ヒアリングシート | ELECTRY LAB';
+  const h=document.getElementById('title');h.textContent='';
+  const nm=document.createElement('span');nm.className='nm';nm.textContent=name+' 様';
+  h.append(nm,'ヒアリングシート');document.title=name+' 様 ヒアリングシート | ELECTRY LAB';
 }
-
 const KEY='electry-sheet:'+name;
-let st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+let st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
-function url(k,type){
-  const p=new URLSearchParams(); if(name)p.set('name',name); p.set('type',type);
-  return FORMS[k].href+'?'+p.toString();
-}
-function el(t,c,txt){const e=document.createElement(t); if(c)e.className=c; if(txt!=null)e.textContent=txt; return e;}
+const url=(f,type)=>{const p=new URLSearchParams();if(name)p.set('name',name);p.set('type',type);return f.u+'?'+p};
+const go=(f,type)=>{window.open(url(f,type),'_blank','noopener'); if(st[f.k]!=='done'){st[f.k]='opened';save();}render();};
 
-function card(k,i){
-  const f=FORMS[k], c=el('div','card'), a=el('a','main');
-  a.href=url(k, st[k]==='done'?'more':'new'); a.target='_blank'; a.rel='noopener';
-  const num=el('span','num', i!=null? String(i+1) : '+');
-  const t=el('div'); t.append(el('b',null,f.title), el('small',null,f.sub));
-  const go=el('span','go');
-  const ic=window.ElectryIcon?ElectryIcon(f.ic):document.createElement('span');
-  a.append(num,ic,t,go);
-  const sub=el('div','sub');
-  c.append(a,sub);
-  function render(){
-    c.classList.toggle('opened', st[k]==='opened');
-    c.classList.toggle('done', st[k]==='done');
-    sub.textContent='';
-    if(st[k]==='done'){
-      num.textContent='✓'; go.textContent='記入済み';
-      a.href=url(k,'more');
-      const more=el('button',null,'もう1件頼む'); more.onclick=()=>open(url(k,'more'));
-      const chg=el('button',null,'内容を変更する'); chg.onclick=()=>open(url(k,'change'));
-      sub.append(more,chg);
-    }else if(st[k]==='opened'){
-      num.textContent= i!=null? String(i+1) : '+'; go.textContent='回答する →';
-      const ok=el('button','ok','送信できた ✓'); ok.onclick=()=>{st[k]='done';save();render();};
-      sub.append(el('p','hint','フォームの最後まで送信できたら、ここを押してください。'), ok);
-    }else{
-      go.textContent='回答する →';
-    }
+const dlg=document.getElementById('dlg'),dT=document.getElementById('dT'),dP=document.getElementById('dP'),dA=document.getElementById('dA');
+function btn(txt,cls,fn){const b=document.createElement('button');b.textContent=txt;if(cls)b.className=cls;b.onclick=()=>{dlg.close();fn&&fn();};return b;}
+function ask(f){
+  dT.textContent=f.t; dA.textContent='';
+  if(st[f.k]==='done'){
+    dP.textContent='記入済みです。追加や変更があればこちらから。';
+    dA.append(btn('もう1件頼む','pri',()=>go(f,'more')),btn('前回の内容を変更する','',()=>go(f,'change')));
+  }else{
+    dP.textContent='フォームの最後まで送信できたら「送信できた」を押してください。';
+    dA.append(btn('送信できた ✓','ok',()=>{st[f.k]='done';save();render();}),btn('もう一度フォームを開く','',()=>go(f,'new')));
   }
-  a.addEventListener('click',()=>{ if(st[k]!=='done'){st[k]='opened';save();render();} });
-  render();
-  return c;
+  dA.append(btn('閉じる','x'));
+  dlg.showModal();
 }
-main.forEach((k,i)=>document.getElementById('main').append(card(k,i)));
-others.forEach(k=>document.getElementById('others').append(card(k,null)));
+const grid=document.getElementById('grid');
+const tiles=FORMS.map(f=>{
+  const b=document.createElement('button');b.type='button';b.className='tile'+(f.wide?' wide':'');
+  const lab=document.createElement('span');lab.textContent=f.t;
+  const bd=document.createElement('span');bd.className='badge';
+  b.append(ElectryIcon(f.ic),lab,bd);
+  b.onclick=()=>{ if(!st[f.k]) go(f,'new'); else ask(f); };
+  grid.append(b); return [f,b,bd];
+});
+function render(){
+  tiles.forEach(([f,b,bd])=>{
+    const s=st[f.k];
+    b.classList.toggle('opened',s==='opened');b.classList.toggle('done',s==='done');
+    bd.textContent= s==='done'?'済':s==='opened'?'回答中':'';
+    bd.style.display=s?'':'none';
+  });
+}
+render();
 </script>
 </body>
 </html>
