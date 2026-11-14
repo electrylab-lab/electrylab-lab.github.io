@@ -68,6 +68,7 @@ dialog::backdrop{background:rgba(243,241,237,.75);backdrop-filter:blur(3px)}
 .chip.todo{border:1px solid var(--line);color:var(--sub)}
 .memo{display:block;font-size:11px;color:var(--sub)}
 .acts{display:grid;gap:8px;margin-top:18px}
+.acts.top{margin:2px 0 16px}
 .acts a{display:block;text-align:center;text-decoration:none;padding:13px;border:1px solid var(--ink);color:var(--ink);font-size:13px;letter-spacing:.12em;background:transparent}
 .acts a.pri{background:var(--ink);color:#fff;position:relative}
 .acts a.pri::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--prism)}
@@ -184,9 +185,9 @@ function open_(f){
   if(f.groups)b=f.groups.map(([g,rs])=>`<div class="grp">${esc(g)}</div>`+rs.map(row).join('')).join('');
   let a='';
   if(f.u){a= f.s==='todo'
-    ? `<a class="pri" href="${url(f,'new')}" target="_blank" rel="noopener">残りの質問に答える</a>`
+    ? `<a class="pri" href="${url(f,'new')}" target="_blank" rel="noopener">ヒアリングに答える</a>`
     : `<a class="pri" href="${url(f,'change')}" target="_blank" rel="noopener">修正・変更を伝える</a><a href="${url(f,'more')}" target="_blank" rel="noopener">追加でお願いする</a>`;}
-  document.getElementById('dB').innerHTML=b+(a?`<div class="acts">${a}</div>`:'');
+  document.getElementById('dB').innerHTML=(a?`<div class="acts top">${a}</div>`:'')+b;
   dlg.showModal();dlg.scrollTop=0;
 }
 const BADGE={done:'DONE',ask:'CHECK',todo:'',later:'LATER'};
